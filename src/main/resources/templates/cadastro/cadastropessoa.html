@@ -13,22 +13,28 @@
 		<div class="row">
 			<form method="post" action="/salvarpessoa" th:object="${pessoaobj}">
 				<div class="row">
-					<div class="col s2">
-						<label>ID:</label>
-						<input type="text" name="id" th:field="*{id}" readonly="readonly"/>
-					</div>
-					<div class="col s2">
-						<label>Nome:</label>
-						<input type="text" name="nome" th:field="*{nome}"/>
-					</div>
-					<div class="col s2">
-						<label>Sobrenome:</label>
-						<input type="text" name="sobrenome" th:field="*{sobrenome}"/>
-					</div>
-					<div class="col s2">
-						<label>Idade:</label>
-						<input type="text" name="idade" th:field="*{idade}"/>
-					</div>
+					<label>ID:</label>
+					<input type="text" name="id" th:field="*{id}" readonly="readonly"/>
+				</div>
+				<div class="row">
+					<label>Nome:</label>
+					<input type="text" name="nome" th:field="*{nome}"/>
+				</div>
+				<div class="row">
+					<label>Sobrenome:</label>
+					<input type="text" name="sobrenome" th:field="*{sobrenome}"/>
+				</div>
+				<div class="row">
+					<label>Idade:</label>
+					<input type="text" name="idade" th:field="*{idade}"/>
+				</div>
+				<div class="row">
+					<label>Sexo:</label>
+					<select class="browser-default" th:field="*{sexo}">
+					    <option value="">Selecione</option>
+					    <option value="F">Feminino</option>
+					    <option value="M">Masculino</option>
+					</select>
 				</div>
 				<div class="row">
 					<div class="col s6">
@@ -48,12 +54,14 @@
 				<th>Nome</th>
 				<th>Sobrenome</th>
 				<th>Idade</th>
+				<th>Sexo</th>
 			</tr>
 			<tr th:each = "pessoa : ${pessoas}">
 				<td th:text = "${pessoa.id}"></td>
 				<td th:text = "${pessoa.nome}"></td>
 				<td th:text = "${pessoa.sobrenome}"></td>
 				<td th:text = "${pessoa.idade}"></td>
+				<td th:text = "${pessoa.sexo}"></td>
 				<td><a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a></td>
 				<td><a th:href="@{/removerpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a></td>
 			</tr>
