@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<title>Insert title here</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -10,62 +10,91 @@
 </head>
 <body>
 	<div class="container">
-		<div class="row">
-			<form method="post" action="/salvarpessoa" th:object="${pessoaobj}">
-				<div class="row">
-					<label>ID:</label>
-					<input type="text" name="id" th:field="*{id}" readonly="readonly"/>
-				</div>
-				<div class="row">
-					<label>Nome:</label>
-					<input type="text" name="nome" th:field="*{nome}"/>
-				</div>
-				<div class="row">
-					<label>Sobrenome:</label>
-					<input type="text" name="sobrenome" th:field="*{sobrenome}"/>
-				</div>
-				<div class="row">
-					<label>Idade:</label>
-					<input type="text" name="idade" th:field="*{idade}"/>
-				</div>
-				<div class="row">
-					<label>Sexo:</label>
-					<select class="browser-default" th:field="*{sexo}">
-					    <option value="">Selecione</option>
-					    <option value="F">Feminino</option>
-					    <option value="M">Masculino</option>
-					</select>
-				</div>
-				<div class="row">
-					<div class="col s6">
-						<button class="waves-effect waves-light btn" name="login" type="submit">
-                        	Salvar
-                   		</button>
+		<div class="section">
+			<div class="row">
+				<form method="post" action="/salvarpessoa" th:object="${pessoaobj}">
+					<div class="row">
+						<div class="col s4">
+							<label>ID:</label>
+							<input type="text" name="id" th:field="*{id}" readonly="readonly"/>
+		
+							<label>Nome:</label>
+							<input type="text" name="nome" th:field="*{nome}"/>
+						</div>
+						<div class="col s4">
+							<label>Sobrenome:</label>
+							<input type="text" name="sobrenome" th:field="*{sobrenome}"/>
+		
+							<label>Idade:</label>
+							<input type="text" name="idade" th:field="*{idade}"/>
+						</div>
+						<div class="col s4">
+							<label>Sexo:</label>
+							<select class="browser-default" th:field="*{sexo}">
+							    <option value="">Selecione</option>
+							    <option value="F">Feminino</option>
+							    <option value="M">Masculino</option>
+							</select>
+						</div>
 					</div>
-				</div>
+					<div class="row">
+						<div class="col s12">
+							<button class="waves-effect waves-light btn" name="btnSalvar" type="submit">
+		                       	Salvar
+		                  	</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="divider"></div>
+		
+		<div class="section">
+			<form method="POST" action="/pesquisarpessoa">
+				<label>Pesquisa Nome:</label>
+				<input type="text" name="nomePesquisa" />
+				<button class="waves-effect waves-light btn" name="pesquisar" type="submit">
+		        	Buscar
+		        </button>
 			</form>
 		</div>
 		
-		<a href="/listarpessoas" class="waves-effect waves-light btn" >Listar</a>
-			 
-		<table>
-			<tr>
-				<th>ID</th>
-				<th>Nome</th>
-				<th>Sobrenome</th>
-				<th>Idade</th>
-				<th>Sexo</th>
-			</tr>
-			<tr th:each = "pessoa : ${pessoas}">
-				<td th:text = "${pessoa.id}"></td>
-				<td th:text = "${pessoa.nome}"></td>
-				<td th:text = "${pessoa.sobrenome}"></td>
-				<td th:text = "${pessoa.idade}"></td>
-				<td th:text = "${pessoa.sexo}"></td>
-				<td><a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a></td>
-				<td><a th:href="@{/removerpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a></td>
-			</tr>
-		</table>
+		<div class="divider"></div>
+		
+		<div class="section">
+			<div class="row">
+			
+					<div class="col s12">
+						<a href="/listarpessoas" class="waves-effect waves-light btn" >Listar</a>
+					</div>
+					
+					<div class="divider"></div>
+					
+					<div class="col s12">					 
+						<table class="striped responsive-table">
+							<tr>
+								<th>ID</th>
+								<th>Nome</th>
+								<th>Sobrenome</th>
+								<th>Idade</th>
+								<th>Sexo</th>
+								<th>Editar</th>
+								<th>Excluir</th>
+							</tr>
+							<tr th:each = "pessoa : ${pessoas}">
+								<td th:text = "${pessoa.id}"></td>
+								<td th:text = "${pessoa.nome}"></td>
+								<td th:text = "${pessoa.sobrenome}"></td>
+								<td th:text = "${pessoa.idade}"></td>
+								<td th:text = "${pessoa.sexo}"></td>
+								<td><a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a></td>
+								<td><a th:href="@{/removerpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a></td>
+							</tr>
+						</table>
+					</div>
+			</div>
+		</div>
 	</div> 
 	<script type="text/javascript" src="materialize/js/materialize.js"></script> 
     <script type="text/javascript" src="materialize/js/materialize.min.js"></script> 
