@@ -27,6 +27,43 @@
 	
 	</div>
 
+	<h5>Telefones</h5>
+	
+	<div class="row">
+		<form th:action="@{/addfonePessoa/{pessoaid}(pessoaid=${pessoaobj.id})}" method="POST" class="col s12">
+			<div class="row">
+				<div class="input-field col s6">
+					<label class="active" for="numero">Número:</label>
+					<input name="numero" id="numero" class="validade" />
+				</div>
+				<div class="input-field col s6">
+					<label class="active" for="tipo">Tipo:</label>
+					<input name="tipo" id="tipo" class="validade" />
+				</div>
+				<button class="waves-effect waves-light btn" name="btnSalvar" type="submit">
+		        	Adicionar
+		        </button>
+			</div>
+		</form>
+	</div>
+	
+	<div class="row">
+		<table class="striped">
+			<thead>
+				<tr>
+					<th>Nº Telefone</th>
+					<th>Tipo</th>
+					<th>Excluir</th>
+				</tr>
+			</thead>
+			<tr th:each="fone : ${telefones}" >
+				<td th:text="${fone.numero}"></td>
+				<td th:text="${fone.tipo}"></td>
+				<td><a th:href="@{/removertelefone/{idtelefone}(idtelefone=${fone.id})}">Excluir</a></td>
+			</tr>
+		</table>
+	</div>
+
 	<script type="text/javascript" src="materialize/js/materialize.js"></script> 
     <script type="text/javascript" src="materialize/js/materialize.min.js"></script> 
 </body>

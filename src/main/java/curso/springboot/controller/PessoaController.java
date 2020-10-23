@@ -1,9 +1,15 @@
 package curso.springboot.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +19,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import curso.springboot.model.Pessoa;
+import curso.springboot.model.Telefone;
 import curso.springboot.repository.PessoaRepository;
+import curso.springboot.repository.TelefoneRepository;
 
 @Controller
 public class PessoaController {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private TelefoneRepository telefoneRepository;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/cadastropessoa")
 	public ModelAndView inicio() {
@@ -33,7 +44,25 @@ public class PessoaController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "**/salvarpessoa")
-	public ModelAndView salvar(Pessoa pessoa) {
+	public ModelAndView salvar(@Valid Pessoa pessoa, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			
+			ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
+			Iterable<Pessoa> pessoasIt = pessoaRepository.findAll();
+			modelAndView.addObject("pessoas",pessoasIt);
+			modelAndView.addObject("pessoaobj",new Pessoa());
+			
+			List<String> msg = new ArrayList<String>();
+			
+			for(ObjectError objectError : bindingResult.getAllErrors()) {
+				msg.add(objectError.getDefaultMessage()); //Vem das anotations @NotEmpty / @NotNull
+			}
+			
+			modelAndView.addObject("msg", msg);
+			
+			return modelAndView;
+		}
 		
 		if(pessoa != null) {
 			pessoaRepository.save(pessoa);
@@ -100,9 +129,48 @@ public class PessoaController {
 		
 		ModelAndView modelAndView = new ModelAndView("cadastro/telefones");
 		
-		Optional<Pessoa> pessoa = pessoaRepository.findById(idpessoa);
-		modelAndView.addObject("pessoaobj", pessoa.get());
+		Pessoa pessoa = pessoaRepository.findById(idpessoa).get();
+		modelAndView.addObject("pessoaobj", pessoa);
+		modelAndView.addObject("telefones", pessoa.getTelefones());
 		
+		
+		return modelAndView;
+		
+	}
+	
+	@PostMapping("**/addfonePessoa/{pessoaid}")
+	public ModelAndView addFonePessoa(Telefone telefone ,@PathVariable("pessoaid") Long pessoaid) {
+		
+		ModelAndView modelAndView = new ModelAndView("cadastro/telefones");
+		
+		Pessoa pessoa = pessoaRepository.findById(pessoaid).get();
+		
+		modelAndView.addObject("pessoaobj", pessoa);
+		
+		telefone.setPessoa(pessoa);	
+		
+		if(telefone != null && pessoa != null) {
+			telefoneRepository.save(telefone);
+		}
+		
+		modelAndView.addObject("telefones", pessoa.getTelefones());
+		
+		return modelAndView;
+		
+	}
+	
+	@GetMapping("**/removertelefone/{idtelefone}")
+	public ModelAndView excluirTelefone(@PathVariable("idtelefone") Long idtelefone){
+		
+		Telefone telefone = telefoneRepository.findById(idtelefone).get();
+		telefoneRepository.deleteById(telefone.getId());
+		
+		ModelAndView modelAndView = new ModelAndView("cadastro/telefones");
+		
+		modelAndView.addObject("telefones",telefone.getPessoa().getTelefones());
+		
+		modelAndView.addObject("pessoaobj", telefone.getPessoa());
+
 		return modelAndView;
 		
 	}
