@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Telefone implements Serializable{
@@ -18,8 +20,12 @@ public class Telefone implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@NotNull(message = "Numero não pode ser nulo.")
+	@NotEmpty(message = "Numero não pode ser vazio.")
 	private String numero;
 	
+	@NotNull(message = "Tipo não pode ser nulo.")
+	@NotEmpty(message = "Tipo não pode ser vazio.")
 	private String tipo;
 	
 	@ManyToOne
