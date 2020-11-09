@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
@@ -32,7 +32,7 @@
 							<input type="text" name="nome" th:field="*{nome}" id="nome"/>
 						</div>
 					</div>	
-					<div class="row">
+					<div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
 						<div class="input-field col s6">
 							<label for="sobrenome" class="active">Sobrenome:</label>
 							<input type="text" name="sobrenome" th:field="*{sobrenome}" id="sobrenome"/>
@@ -99,7 +99,7 @@
 					</div>
 			</div>
 
-	<script type="text/javascript" src="materialize/js/materialize.js"></script> 
-    <script type="text/javascript" src="materialize/js/materialize.min.js"></script> 
+	<script type="text/javascript" src="/materialize/js/materialize.js"></script> 
+    <script type="text/javascript" src="/materialize/js/materialize.min.js"></script> 
 </body>
 </html>
