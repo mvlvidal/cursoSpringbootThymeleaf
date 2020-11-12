@@ -17,7 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = "curso.*")
 @EnableJpaRepositories(basePackages = "curso.springboot.repository")
 @EnableTransactionManagement
-@EnableWebMvc
 public class SpringbootApplication implements WebMvcConfigurer{
 
 	public static void main(String[] args) {
@@ -27,8 +26,8 @@ public class SpringbootApplication implements WebMvcConfigurer{
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 
-		registry.addViewController("/login").setViewName("login");
-		registry.setOrder(Ordered.LOWEST_PRECEDENCE);
+		registry.addViewController("/login").setViewName("/login");
+		registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		
 	}
 
